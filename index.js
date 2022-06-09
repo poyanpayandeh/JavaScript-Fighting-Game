@@ -136,7 +136,6 @@ window.addEventListener("keydown", (event) => {
       enemy.velocity.y = -20;
       break;
   }
-  console.log(event.key);
 });
 
 // event listener to stop players when the movement buttons are released
