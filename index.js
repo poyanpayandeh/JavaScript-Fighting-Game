@@ -9,34 +9,66 @@ c.fillRect(0, 0, canvas.width, canvas.height);
 
 // sprite class
 class Sprite {
-  constructor({ position, velocity }) {
+  constructor({ position, velocity, color, offset }) {
     this.position = position; // sets position of sprite
     this.velocity = velocity; // sets velocity of sprite
     this.height = 150;
+    this.width = 50;
     this.lastKey;
+    this.attackBox = {
+      position: {
+        x: this.position.x,
+        y: this.position.y,
+      },
+      offset: offset,
+      height: 50,
+      width: 100,
+    };
+    this.color = color;
+    this.isAttacking;
   }
 
-  // draw funtion to represent sprite - red rectangle
+  // draw funtion to represent sprite
   draw() {
-    c.fillStyle = "red";
-    c.fillRect(this.position.x, this.position.y, 50, this.height);
+    c.fillStyle = this.color;
+    c.fillRect(this.position.x, this.position.y, this.width, this.height);
+
+    // attack box
+    if (this.isAttacking) {
+      c.fillStyle = "green";
+      c.fillRect(
+        this.attackBox.position.x,
+        this.attackBox.position.y,
+        this.attackBox.width,
+        this.attackBox.height
+      );
+    }
   }
 
   update() {
     this.draw();
+    this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
+    this.attackBox.position.y = this.position.y;
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
 
-    // check if the sprite has reachd the bottom - if so set the velocity to 0 to stop it else velocty.y + gravity
+    // check if the sprite has reached the bottom - if so set the velocity to 0 to stop it else velocty.y + gravity
     if (this.position.y + this.height + this.velocity.y >= canvas.height) {
       this.velocity.y = 0;
     } else {
       this.velocity.y += gravity;
     }
   }
+
+  attack() {
+    this.isAttacking = true;
+    setTimeout(() => {
+      this.isAttacking = false;
+    }, 100);
+  }
 }
 
-// creating player
+// creating player 1
 const player = new Sprite({
   position: {
     x: 0,
@@ -46,9 +78,14 @@ const player = new Sprite({
     x: 0,
     y: 0,
   },
+  offset: {
+    x: 0,
+    y: 0,
+  },
+  color: "red",
 });
 
-// creating enemy
+// creating player 2
 const enemy = new Sprite({
   position: {
     x: 400,
@@ -58,9 +95,14 @@ const enemy = new Sprite({
     x: 0,
     y: 0,
   },
+  offset: {
+    x: -50,
+    y: 0,
+  },
+  color: "blue",
 });
 
-// array for player 1 and 2 movement controls
+// array for player 1 and 2 movement and attacking controls
 const keys = {
   a: {
     pressed: false,
@@ -82,6 +124,18 @@ const keys = {
   },
 };
 
+function rectangularCollision({ rectangle1, rectangle2 }) {
+  return (
+    rectangle1.attackBox.position.x + rectangle1.attackBox.width >=
+      rectangle2.position.x &&
+    rectangle1.attackBox.position.x <=
+      rectangle2.position.x + rectangle2.width &&
+    rectangle1.attackBox.position.y + rectangle1.attackBox.height >=
+      rectangle2.position.y &&
+    rectangle1.attackBox.position.y <= rectangle2.position.y + rectangle2.height
+  );
+}
+
 // function to create animation loop
 function animate() {
   window.requestAnimationFrame(animate);
@@ -90,7 +144,7 @@ function animate() {
   player.update();
   enemy.update();
 
-  //player movement
+  //player 1 movement
   player.velocity.x = 0;
   if (keys.a.pressed && player.lastKey === "a") {
     player.velocity.x = -5;
@@ -98,12 +152,30 @@ function animate() {
     player.velocity.x = 5;
   }
 
-  // enemy movement
+  // player 2 movement
   enemy.velocity.x = 0;
   if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
     enemy.velocity.x = -5;
   } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight") {
     enemy.velocity.x = 5;
+  }
+
+  // player 1 attack
+  if (
+    rectangularCollision({ rectangle1: player, rectangle2: enemy }) &&
+    player.isAttacking
+  ) {
+    console.log("player attack landed");
+    player.isAttacking = false;
+  }
+
+  // player 2 attack
+  if (
+    rectangularCollision({ rectangle1: enemy, rectangle2: player }) &&
+    enemy.isAttacking
+  ) {
+    console.log("enemy attack landed");
+    enemy.isAttacking = false;
   }
 }
 
@@ -123,6 +195,9 @@ window.addEventListener("keydown", (event) => {
     case "w":
       player.velocity.y = -20;
       break;
+    case " ":
+      player.attack();
+      break;
     case "ArrowRight":
       keys.ArrowRight.pressed = true;
       enemy.lastKey = "ArrowRight";
@@ -133,6 +208,9 @@ window.addEventListener("keydown", (event) => {
       break;
     case "ArrowUp":
       enemy.velocity.y = -20;
+      break;
+    case "ArrowDown":
+      enemy.isAttacking = true;
       break;
   }
 });
