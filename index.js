@@ -26,6 +26,7 @@ class Sprite {
     };
     this.color = color;
     this.isAttacking;
+    this.health = 100;
   }
 
   // draw funtion to represent sprite
@@ -165,7 +166,8 @@ function animate() {
     rectangularCollision({ rectangle1: player, rectangle2: enemy }) &&
     player.isAttacking
   ) {
-    console.log("player attack landed");
+    enemy.health -= 20;
+    document.querySelector("#playerTwoHealth").style.width = enemy.health + "%";
     player.isAttacking = false;
   }
 
@@ -174,7 +176,9 @@ function animate() {
     rectangularCollision({ rectangle1: enemy, rectangle2: player }) &&
     enemy.isAttacking
   ) {
-    console.log("enemy attack landed");
+    player.health -= 20;
+    document.querySelector("#playerOneHealth").style.width =
+      player.health + "%";
     enemy.isAttacking = false;
   }
 }
