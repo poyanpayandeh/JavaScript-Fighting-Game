@@ -111,7 +111,6 @@ animate();
 
 // event listener for player 1 and 2 controls
 window.addEventListener("keydown", (event) => {
-  console.log(event.key);
   switch (event.key) {
     case "d":
       keys.d.pressed = true;
