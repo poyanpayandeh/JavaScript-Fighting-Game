@@ -1,6 +1,6 @@
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
-const gravity = 0.2;
+const gravity = 0.7;
 
 // sets canvas width, height and background colour
 canvas.width = 1024;
@@ -60,8 +60,7 @@ const enemy = new Sprite({
   },
 });
 
-console.log(player);
-
+// array for player 1 and 2 movement controls
 const keys = {
   a: {
     pressed: false,
@@ -83,8 +82,6 @@ const keys = {
   },
 };
 
-let lastKey;
-
 // function to create animation loop
 function animate() {
   window.requestAnimationFrame(animate);
@@ -96,22 +93,23 @@ function animate() {
   //player movement
   player.velocity.x = 0;
   if (keys.a.pressed && player.lastKey === "a") {
-    player.velocity.x = -1.5;
+    player.velocity.x = -5;
   } else if (keys.d.pressed && player.lastKey === "d") {
-    player.velocity.x = 1.5;
+    player.velocity.x = 5;
   }
 
   // enemy movement
   enemy.velocity.x = 0;
   if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
-    enemy.velocity.x = -1.5;
+    enemy.velocity.x = -5;
   } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight") {
-    enemy.velocity.x = 1.5;
+    enemy.velocity.x = 5;
   }
 }
 
 animate();
 
+// event listener for player 1 and 2 controls
 window.addEventListener("keydown", (event) => {
   console.log(event.key);
   switch (event.key) {
@@ -124,7 +122,7 @@ window.addEventListener("keydown", (event) => {
       player.lastKey = "a";
       break;
     case "w":
-      player.velocity.y = -10;
+      player.velocity.y = -20;
       break;
     case "ArrowRight":
       keys.ArrowRight.pressed = true;
@@ -135,12 +133,13 @@ window.addEventListener("keydown", (event) => {
       enemy.lastKey = "ArrowLeft";
       break;
     case "ArrowUp":
-      enemy.velocity.y = -10;
+      enemy.velocity.y = -20;
       break;
   }
   console.log(event.key);
 });
 
+// event listener to stop players when the movement buttons are released
 window.addEventListener("keyup", (event) => {
   switch (event.key) {
     case "d":
