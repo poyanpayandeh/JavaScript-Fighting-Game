@@ -103,7 +103,7 @@ const enemy = new Sprite({
   color: "blue",
 });
 
-// array for player 1 and 2 movement and attacking controls
+// array for player 1 and 2 movement
 const keys = {
   a: {
     pressed: false,
