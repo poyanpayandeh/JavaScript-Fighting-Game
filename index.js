@@ -70,6 +70,10 @@ const player = new Fighter({
       imageSrc: "./img/samuraiMack/Take Hit.png",
       frames: 4,
     },
+    death: {
+      imageSrc: "./img/samuraiMack/Death.png",
+      frames: 6,
+    },
   },
   attackBox: {
     offset: {
@@ -79,7 +83,6 @@ const player = new Fighter({
     width: 200,
     height: 50,
   },
-  player: 1,
 });
 
 // creating player 2
@@ -124,6 +127,10 @@ const enemy = new Fighter({
       imageSrc: "./img/kenji/Take hit.png",
       frames: 3,
     },
+    death: {
+      imageSrc: "./img/kenji/Death.png",
+      frames: 7,
+    },
   },
   attackBox: {
     offset: {
@@ -133,7 +140,6 @@ const enemy = new Fighter({
     width: 160,
     height: 50,
   },
-  player: 2,
 });
 
 // array for player 1 and 2 movement
@@ -222,31 +228,34 @@ function animate() {
   // player 1 attack
   if (
     rectangularCollision({ rectangle1: player, rectangle2: enemy }) &&
-    player.isAttacking
+    player.isAttacking &&
+    player.currentFrame === 4
   ) {
     player.isAttacking = false;
-    if (player.player === 1) {
-      setTimeout(function () {
-        enemy.takehit();
-        document.querySelector("#playerTwoHealth").style.width =
-          enemy.health + "%";
-      }, 500);
-    }
+    enemy.takehit();
+    document.querySelector("#playerTwoHealth").style.width = enemy.health + "%";
+  }
+
+  // if player 1 misses
+  if (player.isAttacking && player.currentFrame === 4) {
+    player.isAttacking = false;
   }
 
   // player 2 attack
   if (
     rectangularCollision({ rectangle1: enemy, rectangle2: player }) &&
-    enemy.isAttacking
+    enemy.isAttacking &&
+    enemy.currentFrame === 1
   ) {
     enemy.isAttacking = false;
-    if (enemy.player === 2) {
-      setTimeout(function () {
-        player.takehit();
-        document.querySelector("#playerOneHealth").style.width =
-          player.health + "%";
-      }, 100);
-    }
+    player.takehit();
+    document.querySelector("#playerOneHealth").style.width =
+      player.health + "%";
+  }
+
+  // if player 2 misses
+  if (enemy.isAttacking && enemy.currentFrame === 1) {
+    enemy.isAttacking = false;
   }
 
   // end game if health reaches 0
@@ -277,7 +286,9 @@ window.addEventListener("keydown", (event) => {
       }
       break;
     case " ":
-      player.attack();
+      if (player.image !== player.sprites.takehit.image) {
+        player.attack();
+      }
       break;
     case "ArrowRight":
       keys.ArrowRight.pressed = true;
@@ -294,7 +305,9 @@ window.addEventListener("keydown", (event) => {
       }
       break;
     case "ArrowDown":
-      enemy.attack();
+      if (enemy.image !== enemy.sprites.takehit.image) {
+        enemy.attack();
+      }
       break;
   }
 });

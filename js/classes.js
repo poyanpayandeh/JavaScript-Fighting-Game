@@ -65,7 +65,6 @@ class Fighter extends Sprite {
     offset = { x: 0, y: 0 },
     sprites,
     attackBox = { offset: {}, width: undefined, height: undefined },
-    player,
   }) {
     super({
       position,
@@ -94,7 +93,6 @@ class Fighter extends Sprite {
     this.elapsedFrames = 0;
     this.framesHold = 8;
     this.sprites = sprites;
-    this.player = player;
 
     for (const sprite in this.sprites) {
       sprites[sprite].image = new Image();
@@ -123,9 +121,6 @@ class Fighter extends Sprite {
   attack() {
     this.switchSprite("attack1");
     this.isAttacking = true;
-    setTimeout(() => {
-      this.isAttacking = false;
-    }, 100);
   }
 
   takehit() {
@@ -190,6 +185,13 @@ class Fighter extends Sprite {
         if (this.image !== this.sprites.takehit.image) {
           this.image = this.sprites.takehit.image;
           this.frames = this.sprites.takehit.frames;
+          this.currentFrame = 0;
+        }
+        break;
+      case "death":
+        if (this.image !== this.sprites.death.image) {
+          this.image = this.sprites.death.image;
+          this.frames = this.sprites.death.frames;
           this.currentFrame = 0;
         }
         break;
