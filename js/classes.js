@@ -93,6 +93,7 @@ class Fighter extends Sprite {
     this.elapsedFrames = 0;
     this.framesHold = 8;
     this.sprites = sprites;
+    this.dead = false;
 
     for (const sprite in this.sprites) {
       sprites[sprite].image = new Image();
@@ -102,7 +103,10 @@ class Fighter extends Sprite {
 
   update() {
     this.draw();
-    this.animateFrames();
+
+    if (!this.dead) {
+      this.animateFrames();
+    }
 
     this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
     this.attackBox.position.y = this.position.y + this.attackBox.offset.y;
@@ -124,11 +128,23 @@ class Fighter extends Sprite {
   }
 
   takehit() {
-    this.switchSprite("takehit");
     this.health -= 20;
+
+    if (this.health <= 0) {
+      this.switchSprite("death");
+    } else {
+      this.switchSprite("takehit");
+    }
   }
 
   switchSprite(sprite) {
+    if (this.image === this.sprites.death.image) {
+      if (this.currentFrame === this.sprites.death.frames - 1) {
+        this.dead = true;
+      }
+      return;
+    }
+
     // override all animations when attacking
     if (
       this.image === this.sprites.attack1.image &&
@@ -137,7 +153,7 @@ class Fighter extends Sprite {
       return;
     }
 
-    // override ll animations when taking damage
+    // override all animations when taking damage
     if (
       this.image === this.sprites.takehit.image &&
       this.currentFrame < this.sprites.takehit.frames - 1
