@@ -1,6 +1,7 @@
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
 const gravity = 0.7;
+const floor = 331;
 
 // sets canvas width, height and background colour
 canvas.width = 1024;
@@ -152,7 +153,7 @@ window.addEventListener("keydown", (event) => {
       player.lastKey = "a";
       break;
     case "w":
-      if (player.position.y < 426) {
+      if (player.position.y < floor) {
       } else {
         player.velocity.y = -20;
       }
@@ -169,7 +170,7 @@ window.addEventListener("keydown", (event) => {
       enemy.lastKey = "ArrowLeft";
       break;
     case "ArrowUp":
-      if (enemy.position.y < 426) {
+      if (enemy.position.y < floor) {
       } else {
         enemy.velocity.y = -20;
       }
