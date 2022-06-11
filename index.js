@@ -17,6 +17,17 @@ const background = new Sprite({
   imageSrc: "./img/background.png",
 });
 
+// creating shop animation image
+const shop = new Sprite({
+  position: {
+    x: 600,
+    y: 130,
+  },
+  imageSrc: "./img/shop.png",
+  scale: 2.75,
+  frames: 6,
+});
+
 // creating player 1
 const player = new Fighter({
   position: {
@@ -81,6 +92,7 @@ function animate() {
   c.fillStyle = "black";
   c.fillRect(0, 0, canvas.width, canvas.height); // clears canvas before moving sprites
   background.update();
+  shop.update();
   player.update();
   enemy.update();
 

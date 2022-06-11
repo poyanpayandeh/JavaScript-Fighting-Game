@@ -62,20 +62,44 @@ class Fighter {
 
 // sprite class
 class Sprite {
-  constructor({ position, imageSrc }) {
+  constructor({ position, imageSrc, scale = 1, frames = 1 }) {
     this.position = position;
     this.height = 150;
     this.width = 50;
     this.image = new Image();
     this.image.src = imageSrc;
+    this.scale = scale;
+    this.frames = frames;
+    this.currentFrame = 0;
+    this.elapsedFrames = 0;
+    this.framesHold = 8;
   }
 
   // draw funtion to represent sprite
   draw() {
-    c.drawImage(this.image, this.position.x, this.position.y);
+    c.drawImage(
+      this.image,
+      this.currentFrame * (this.image.width / this.frames),
+      0,
+      this.image.width / this.frames,
+      this.image.height,
+      this.position.x,
+      this.position.y,
+      (this.image.width / this.frames) * this.scale,
+      this.image.height * this.scale
+    );
   }
 
   update() {
     this.draw();
+    this.elapsedFrames++;
+
+    if (this.elapsedFrames % this.framesHold === 0) {
+      if (this.currentFrame < this.frames - 1) {
+        this.currentFrame++;
+      } else {
+        this.currentFrame = 0;
+      }
+    }
   }
 }
