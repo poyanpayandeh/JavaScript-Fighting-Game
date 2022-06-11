@@ -215,6 +215,9 @@ function animate() {
   if (enemy.health <= 0 || player.health <= 0) {
     determineWinner({ player, enemy, timerId });
   }
+
+  console.log(`player 1 height ${player.position.y}`);
+  console.log(`player 2 height ${enemy.position.y}`);
 }
 
 animate();
@@ -231,7 +234,10 @@ window.addEventListener("keydown", (event) => {
       player.lastKey = "a";
       break;
     case "w":
-      player.velocity.y = -20;
+      if (player.position.y < 426) {
+      } else {
+        player.velocity.y = -20;
+      }
       break;
     case " ":
       player.attack();
@@ -245,7 +251,10 @@ window.addEventListener("keydown", (event) => {
       enemy.lastKey = "ArrowLeft";
       break;
     case "ArrowUp":
-      enemy.velocity.y = -20;
+      if (enemy.position.y < 426) {
+      } else {
+        enemy.velocity.y = -20;
+      }
       break;
     case "ArrowDown":
       enemy.attack();
