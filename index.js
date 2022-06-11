@@ -49,6 +49,24 @@ const player = new Fighter({
     x: 215,
     y: 157,
   },
+  sprites: {
+    idle: {
+      imageSrc: "./img/samuraiMack/Idle.png",
+      frames: 8,
+    },
+    run: {
+      imageSrc: "./img/samuraiMack/Run.png",
+      frames: 8,
+    },
+    jump: {
+      imageSrc: "./img/samuraiMack/Jump.png",
+      frames: 2,
+    },
+    fall: {
+      imageSrc: "./img/samuraiMack/Fall.png",
+      frames: 2,
+    },
+  },
 });
 
 // creating player 2
@@ -104,14 +122,25 @@ function animate() {
 
   //player 1 movement
   player.velocity.x = 0;
+
   if (keys.a.pressed && player.lastKey === "a" && player.position.x != 0) {
     player.velocity.x = -5;
+    player.switchSprite("run");
   } else if (
     keys.d.pressed &&
     player.lastKey === "d" &&
     player.position.x != 975
   ) {
     player.velocity.x = 5;
+    player.switchSprite("run");
+  } else {
+    player.switchSprite("idle");
+  }
+
+  if (player.velocity.y < 0) {
+    player.switchSprite("jump");
+  } else if (player.velocity.y > 0) {
+    player.switchSprite("fall");
   }
 
   // player 2 movement
