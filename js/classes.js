@@ -16,7 +16,7 @@ class Sprite {
     this.frames = frames;
     this.currentFrame = 0;
     this.elapsedFrames = 0;
-    this.framesHold = 8;
+    this.framesHold = 5;
     this.offset = offset;
   }
 
@@ -59,12 +59,13 @@ class Fighter extends Sprite {
     position,
     velocity,
     color,
-    attackOffset,
     imageSrc,
     scale = 1,
     frames = 1,
     offset = { x: 0, y: 0 },
     sprites,
+    attackBox = { offset: {}, width: undefined, height: undefined },
+    player,
   }) {
     super({
       position,
@@ -82,9 +83,9 @@ class Fighter extends Sprite {
         x: this.position.x,
         y: this.position.y,
       },
-      attackOffset: offset,
-      height: 50,
-      width: 100,
+      offset: attackBox.offset,
+      height: attackBox.height,
+      width: attackBox.width,
     };
     this.color = color;
     this.isAttacking;
@@ -93,6 +94,7 @@ class Fighter extends Sprite {
     this.elapsedFrames = 0;
     this.framesHold = 8;
     this.sprites = sprites;
+    this.player = player;
 
     for (const sprite in this.sprites) {
       sprites[sprite].image = new Image();
@@ -104,8 +106,8 @@ class Fighter extends Sprite {
     this.draw();
     this.animateFrames();
 
-    this.attackBox.position.x = this.position.x + this.attackBox.attackOffset.x;
-    this.attackBox.position.y = this.position.y;
+    this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
+    this.attackBox.position.y = this.position.y + this.attackBox.offset.y;
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
 
