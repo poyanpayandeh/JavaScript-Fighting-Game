@@ -38,11 +38,17 @@ const player = new Fighter({
     x: 0,
     y: 0,
   },
-  offset: {
+  attackOffset: {
     x: 0,
     y: 0,
   },
-  color: "red",
+  imageSrc: "./img/samuraiMack/Idle.png",
+  frames: 8,
+  scale: 2.5,
+  offset: {
+    x: 215,
+    y: 157,
+  },
 });
 
 // creating player 2
@@ -94,7 +100,7 @@ function animate() {
   background.update();
   shop.update();
   player.update();
-  enemy.update();
+  // enemy.update();
 
   //player 1 movement
   player.velocity.x = 0;
