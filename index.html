@@ -1,8 +1,16 @@
 <head>
+  <!-- to get custom font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+    rel="stylesheet"
+  />
   <!-- stops padding fron changing overall width -->
   <style>
     * {
       box-sizing: border-box;
+      font-family: "Press Start 2P", cursive;
     }
   </style>
 </head>
@@ -24,18 +32,21 @@
       <div
         style="
           position: relative;
-          height: 30px;
           width: 100%;
           display: flex;
           justify-content: flex-end;
+
+          border-top: 4px solid #d1d5db;
+          border-bottom: 4px solid #d1d5db;
+          border-left: 4px solid #d1d5db;
         "
       >
-        <div style="background-color: yellow; height: 30px; width: 100%"></div>
+        <div style="background-color: #fb7185; height: 30px; width: 100%"></div>
         <div
           id="playerOneHealth"
           style="
             position: absolute;
-            background: blue;
+            background: #818cf8;
             top: 0;
             right: 0;
             bottom: 0;
@@ -47,25 +58,35 @@
       <div
         id="timer"
         style="
-          background-color: red;
+          background-color: #404040;
           width: 100px;
-          height: 100px;
+          height: 50px;
           flex-shrink: 0;
           display: flex;
           align-items: center;
           justify-content: center;
+          color: #d1d5db;
+          border: 4px solid #d1d5db;
         "
       >
         10
       </div>
       <!-- player 2 health -->
-      <div style="position: relative; height: 30px; width: 100%">
-        <div style="background-color: yellow; height: 30px"></div>
+      <div
+        style="
+          position: relative;
+          width: 100%;
+          border-top: 4px solid #d1d5db;
+          border-bottom: 4px solid #d1d5db;
+          border-right: 4px solid #d1d5db;
+        "
+      >
+        <div style="background-color: #fb7185; height: 30px"></div>
         <div
           id="playerTwoHealth"
           style="
             position: absolute;
-            background: blue;
+            background: #818cf8;
             top: 0;
             right: 0;
             bottom: 0;
@@ -95,6 +116,12 @@
   </div>
 
   <!-- javascript to set canvas size -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"
+    integrity="sha512-VEBjfxWUOyzl0bAwh4gdLEaQyDYPvLrZql3pw1ifgb6fhEvZl9iDDehwHZ+dsMzA0Jfww8Xt7COSZuJ/slxc4Q=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
   <script src="js/utils.js"></script>
   <script src="js/classes.js"></script>
   <script src="index.js"></script>

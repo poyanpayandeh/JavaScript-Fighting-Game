@@ -173,6 +173,8 @@ function animate() {
   c.fillRect(0, 0, canvas.width, canvas.height); // clears canvas before moving sprites
   background.update();
   shop.update();
+  c.fillStyle = "rgba(255,255,255,0.15)";
+  c.fillRect(0, 0, canvas.width, canvas.height);
   player.update();
   enemy.update();
 
@@ -233,7 +235,9 @@ function animate() {
   ) {
     player.isAttacking = false;
     enemy.takehit();
-    document.querySelector("#playerTwoHealth").style.width = enemy.health + "%";
+    gsap.to("#playerTwoHealth", {
+      width: enemy.health + "%",
+    });
   }
 
   // if player 1 misses
@@ -249,8 +253,9 @@ function animate() {
   ) {
     enemy.isAttacking = false;
     player.takehit();
-    document.querySelector("#playerOneHealth").style.width =
-      player.health + "%";
+    gsap.to("#playerOneHealth", {
+      width: player.health + "%",
+    });
   }
 
   // if player 2 misses
