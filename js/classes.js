@@ -112,6 +112,7 @@ class Fighter extends Sprite {
     // check if the sprite has reached the bottom - if so set the velocity to 0 to stop it else velocty.y + gravity
     if (this.position.y + this.height + this.velocity.y >= canvas.height - 95) {
       this.velocity.y = 0;
+      this.position.y = floor;
     } else {
       this.velocity.y += gravity;
     }
