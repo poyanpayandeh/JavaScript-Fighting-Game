@@ -227,9 +227,6 @@ function animate() {
   if (enemy.health <= 0 || player.health <= 0) {
     determineWinner({ player, enemy, timerId });
   }
-
-  console.log(`player 1 height ${player.position.x}`);
-  console.log(`player 1 height ${enemy.position.x}`);
 }
 
 animate();
