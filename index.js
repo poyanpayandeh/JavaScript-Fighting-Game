@@ -89,7 +89,7 @@ const player = new Sprite({
 // creating player 2
 const enemy = new Sprite({
   position: {
-    x: 400,
+    x: 980,
     y: 100,
   },
   velocity: {
@@ -176,17 +176,29 @@ function animate() {
 
   //player 1 movement
   player.velocity.x = 0;
-  if (keys.a.pressed && player.lastKey === "a") {
+  if (keys.a.pressed && player.lastKey === "a" && player.position.x != 0) {
     player.velocity.x = -5;
-  } else if (keys.d.pressed && player.lastKey === "d") {
+  } else if (
+    keys.d.pressed &&
+    player.lastKey === "d" &&
+    player.position.x != 975
+  ) {
     player.velocity.x = 5;
   }
 
   // player 2 movement
   enemy.velocity.x = 0;
-  if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
+  if (
+    keys.ArrowLeft.pressed &&
+    enemy.lastKey === "ArrowLeft" &&
+    enemy.position.x != 0
+  ) {
     enemy.velocity.x = -5;
-  } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight") {
+  } else if (
+    keys.ArrowRight.pressed &&
+    enemy.lastKey === "ArrowRight" &&
+    enemy.position.x != 975
+  ) {
     enemy.velocity.x = 5;
   }
 
@@ -231,7 +243,10 @@ window.addEventListener("keydown", (event) => {
       player.lastKey = "a";
       break;
     case "w":
-      player.velocity.y = -20;
+      if (player.position.y < 426) {
+      } else {
+        player.velocity.y = -20;
+      }
       break;
     case " ":
       player.attack();
@@ -245,7 +260,10 @@ window.addEventListener("keydown", (event) => {
       enemy.lastKey = "ArrowLeft";
       break;
     case "ArrowUp":
-      enemy.velocity.y = -20;
+      if (enemy.position.y < 426) {
+      } else {
+        enemy.velocity.y = -20;
+      }
       break;
     case "ArrowDown":
       enemy.attack();
